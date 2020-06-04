@@ -8,6 +8,8 @@ import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -25,50 +27,55 @@ const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 func init() { proto.RegisterFile("services.proto", fileDescriptor_8e16ccb8c5307b32) }
 
 var fileDescriptor_8e16ccb8c5307b32 = []byte{
-	// 688 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x57, 0xdb, 0x6e, 0xd3, 0x40,
-	0x10, 0x95, 0x10, 0x2a, 0x30, 0x2d, 0x69, 0x59, 0xd4, 0x0b, 0xad, 0x50, 0xcb, 0x1d, 0x2a, 0xb0,
-	0x50, 0x11, 0x1f, 0x00, 0xbd, 0x44, 0x15, 0xb4, 0x8a, 0x62, 0xa9, 0xa2, 0x95, 0x00, 0x6d, 0xdc,
-	0x49, 0xb2, 0xad, 0xe3, 0x35, 0xbb, 0x63, 0xa0, 0x7c, 0x12, 0x2f, 0x3c, 0xf1, 0x7f, 0xc8, 0xf1,
-	0x25, 0x89, 0xed, 0x75, 0x6a, 0xd3, 0xb7, 0x68, 0x67, 0xe6, 0x9c, 0x39, 0xbb, 0xb3, 0x7b, 0x62,
-	0x68, 0x68, 0x54, 0xdf, 0x85, 0x83, 0xda, 0xf2, 0x95, 0x24, 0xc9, 0x1a, 0x3d, 0x1e, 0xf4, 0xd0,
-	0x1a, 0xa0, 0xd6, 0xbc, 0x87, 0x7a, 0xb5, 0x91, 0xfc, 0x8a, 0xe2, 0x5b, 0x7f, 0x17, 0x60, 0xa6,
-	0x1d, 0x78, 0x1e, 0x2a, 0x76, 0x0c, 0x73, 0x47, 0xdc, 0x15, 0xa7, 0x9c, 0xd0, 0x26, 0xf4, 0xd9,
-	0x23, 0x6b, 0xb2, 0xd6, 0x0a, 0x57, 0x93, 0x8c, 0x36, 0x7e, 0x0b, 0x50, 0xd3, 0xea, 0xe3, 0xf2,
-	0x24, 0xed, 0x4b, 0x4f, 0x23, 0x3b, 0x81, 0x95, 0x7d, 0x4f, 0x90, 0xe0, 0xae, 0xf8, 0x85, 0x76,
-	0x20, 0x08, 0x77, 0x38, 0x71, 0x9b, 0xa4, 0x42, 0xb6, 0x98, 0x45, 0xd8, 0x1d, 0xf8, 0x74, 0xb1,
-	0xfa, 0x2c, 0xb7, 0xfc, 0x13, 0x9d, 0x80, 0x84, 0xf4, 0x6c, 0xe2, 0x14, 0xe8, 0x14, 0xdb, 0x81,
-	0x86, 0x4d, 0x5c, 0x51, 0x1a, 0x67, 0xcf, 0xcb, 0x4a, 0x15, 0x09, 0xaf, 0x97, 0x74, 0x7f, 0x69,
-	0x92, 0x63, 0x58, 0x1e, 0x13, 0xe0, 0xa3, 0x73, 0x75, 0xfd, 0x9f, 0x03, 0x1b, 0xb6, 0x15, 0xa2,
-	0x8e, 0x34, 0xbc, 0xcc, 0xed, 0xeb, 0x78, 0xb8, 0xb6, 0x8e, 0xcf, 0xb0, 0x36, 0xa6, 0xc3, 0x41,
-	0x8f, 0x2b, 0x21, 0xaf, 0x4e, 0x8b, 0x86, 0xa5, 0x48, 0x4b, 0x8c, 0x3c, 0xd2, 0xf3, 0x3a, 0xa7,
-	0x27, 0x9b, 0x52, 0x5b, 0x53, 0xba, 0x81, 0x84, 0x7e, 0xd9, 0x06, 0x8e, 0x87, 0x6b, 0x93, 0x9d,
-	0xc0, 0x6c, 0x14, 0x8a, 0xee, 0xc8, 0xc3, 0xe2, 0xba, 0x61, 0xb0, 0x32, 0xf6, 0x19, 0xdc, 0xdd,
-	0x13, 0x9e, 0xd0, 0xfd, 0x49, 0x25, 0x9b, 0xa5, 0x4a, 0x76, 0xbd, 0xd3, 0x3a, 0x3a, 0x14, 0x2c,
-	0xc7, 0x5c, 0xb9, 0xa3, 0xb2, 0xa6, 0x1e, 0x55, 0x4d, 0xce, 0x91, 0xbe, 0x89, 0x51, 0xdf, 0x2c,
-	0x1d, 0xf5, 0x9a, 0x5c, 0x1d, 0x98, 0x8f, 0xb8, 0x46, 0x3c, 0x4f, 0x8d, 0xb5, 0x35, 0x39, 0x76,
-	0xe0, 0xd6, 0x36, 0x77, 0xfa, 0xb8, 0x27, 0x5c, 0x64, 0x1b, 0xd9, 0xaa, 0x34, 0x94, 0xe0, 0x16,
-	0x5f, 0x2e, 0xd6, 0x82, 0xd9, 0x26, 0x0e, 0x87, 0xf7, 0x90, 0x0f, 0x90, 0xad, 0x17, 0x9d, 0x76,
-	0x18, 0x49, 0x60, 0x36, 0xcc, 0x09, 0x71, 0x5f, 0x5f, 0x61, 0xbe, 0x89, 0xd4, 0x74, 0x65, 0xa7,
-	0xc5, 0x89, 0x50, 0x79, 0xda, 0x74, 0xb1, 0xdf, 0x66, 0x97, 0xf7, 0x07, 0xbe, 0x8b, 0x03, 0xf4,
-	0x88, 0x87, 0x7a, 0xc3, 0xee, 0xc7, 0x60, 0x52, 0x02, 0x1b, 0xe6, 0xc6, 0x5a, 0xd6, 0xcc, 0xd8,
-	0x92, 0x4e, 0x9a, 0x7e, 0x50, 0x92, 0x91, 0x76, 0xbd, 0x10, 0x83, 0xb6, 0xa4, 0x16, 0x21, 0xbd,
-	0x66, 0x85, 0xee, 0x92, 0x86, 0x13, 0xf0, 0x27, 0x53, 0xb2, 0x52, 0x82, 0xa5, 0x26, 0x52, 0x5e,
-	0xa1, 0x71, 0x77, 0xac, 0xe9, 0xbb, 0xf3, 0x51, 0x68, 0x4a, 0x09, 0x3e, 0xc1, 0xed, 0x34, 0xc3,
-	0xa6, 0xa0, 0xc3, 0x5e, 0xe5, 0x1b, 0x0b, 0x3a, 0x93, 0x20, 0xdb, 0xf2, 0x34, 0x3d, 0xd9, 0x95,
-	0x6c, 0x7a, 0xc8, 0xb0, 0x23, 0xba, 0x5d, 0x76, 0x00, 0x37, 0xdb, 0xd8, 0xe5, 0x0e, 0x49, 0x95,
-	0x1f, 0x90, 0x24, 0x62, 0x1c, 0x90, 0x51, 0x42, 0xdc, 0xe8, 0x3b, 0xb8, 0xfe, 0x41, 0xb8, 0x6e,
-	0xfe, 0xf5, 0x0a, 0x57, 0x5b, 0x4a, 0x3a, 0xa8, 0x75, 0xf9, 0xd4, 0x6e, 0xfd, 0xb9, 0x11, 0xb6,
-	0xe4, 0x4b, 0x45, 0xa8, 0xd8, 0x09, 0x2c, 0x1f, 0x4a, 0x12, 0xdd, 0x8b, 0xdc, 0xfb, 0x5a, 0xc1,
-	0x8b, 0x0d, 0xd7, 0xa3, 0x03, 0x6b, 0x11, 0x76, 0xa1, 0x01, 0x56, 0xf4, 0x49, 0x03, 0xc7, 0x19,
-	0xac, 0xc7, 0x1c, 0x26, 0x53, 0xaa, 0xe1, 0x5f, 0x53, 0xf5, 0x14, 0xf9, 0x51, 0x45, 0xdb, 0x32,
-	0x70, 0x7c, 0x81, 0x7b, 0x05, 0x1c, 0xd1, 0x2b, 0x57, 0xc9, 0x4e, 0x0c, 0xf8, 0x5d, 0xb8, 0x6f,
-	0xd8, 0xaf, 0x98, 0xa3, 0xaa, 0x85, 0x4c, 0xd5, 0x91, 0x77, 0x84, 0x4a, 0xb6, 0x61, 0xc0, 0x3f,
-	0x82, 0xc5, 0xcc, 0xdc, 0xc6, 0xd8, 0x97, 0xb5, 0x0a, 0xe3, 0x93, 0x7e, 0x27, 0xee, 0x3b, 0xfc,
-	0xab, 0xdb, 0x46, 0x1d, 0xb8, 0x54, 0xf0, 0x96, 0x85, 0xc1, 0x14, 0x38, 0xca, 0x32, 0x21, 0xfe,
-	0xff, 0x8d, 0x7d, 0xff, 0x02, 0x96, 0x1c, 0x39, 0xb0, 0xa8, 0x2f, 0x83, 0x5e, 0x9f, 0x7e, 0x48,
-	0x75, 0xae, 0xa3, 0xc4, 0xdf, 0xd7, 0x1a, 0xcd, 0x61, 0xc1, 0x41, 0x5c, 0xd0, 0x99, 0x19, 0x7e,
-	0x1b, 0xbc, 0xf9, 0x17, 0x00, 0x00, 0xff, 0xff, 0x51, 0x45, 0x6d, 0x2e, 0x4d, 0x0c, 0x00, 0x00,
+	// 765 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x97, 0xed, 0x4e, 0x13, 0x4d,
+	0x14, 0xc7, 0xf3, 0x3c, 0x79, 0x42, 0x78, 0x0e, 0x58, 0x70, 0x0c, 0x2f, 0x82, 0x0a, 0xbe, 0x0b,
+	0xd1, 0x6a, 0x30, 0x5e, 0x80, 0x50, 0x68, 0x88, 0x42, 0x9a, 0x36, 0x21, 0xca, 0x07, 0xcd, 0x74,
+	0x7b, 0xda, 0x0e, 0x6c, 0x77, 0xd6, 0x99, 0xb3, 0x2a, 0xde, 0x86, 0x77, 0xe1, 0xed, 0x79, 0x01,
+	0x9a, 0xed, 0xbe, 0xf4, 0x65, 0x76, 0x5a, 0x76, 0xd1, 0x6f, 0x64, 0xcf, 0x39, 0xff, 0xdf, 0xf9,
+	0xcf, 0xdb, 0x29, 0x50, 0xd2, 0xa8, 0x3e, 0x0b, 0x07, 0x75, 0xd9, 0x57, 0x92, 0x24, 0x2b, 0x75,
+	0x78, 0xd0, 0xc1, 0x72, 0x0f, 0xb5, 0xe6, 0x1d, 0xd4, 0x6b, 0xa5, 0xe4, 0xaf, 0x28, 0xbe, 0xf3,
+	0x73, 0x11, 0x66, 0xea, 0x81, 0xe7, 0xa1, 0x62, 0xef, 0x61, 0xfe, 0x84, 0xbb, 0xa2, 0xc5, 0x09,
+	0x1b, 0x84, 0x3e, 0xbb, 0x5f, 0x1e, 0xad, 0x2d, 0x87, 0x5f, 0x93, 0x8c, 0x3a, 0x7e, 0x0a, 0x50,
+	0xd3, 0xda, 0x83, 0xc9, 0x49, 0xda, 0x97, 0x9e, 0x46, 0xe6, 0xc1, 0xea, 0xa1, 0x27, 0x48, 0x70,
+	0x57, 0x7c, 0xc3, 0x46, 0x20, 0x08, 0x2b, 0x9c, 0x78, 0x83, 0xa4, 0x42, 0xb6, 0x65, 0x28, 0x8c,
+	0xc4, 0xc3, 0xba, 0x04, 0xf6, 0x78, 0x3c, 0x75, 0xff, 0x2b, 0x3a, 0x01, 0x09, 0xe9, 0x35, 0x88,
+	0x53, 0xa0, 0x53, 0x9e, 0x03, 0xa5, 0x06, 0x71, 0x45, 0x69, 0x9c, 0x3d, 0x99, 0x54, 0xaa, 0x48,
+	0x78, 0x9d, 0xdc, 0x10, 0x17, 0x56, 0x86, 0x4c, 0xf9, 0xe8, 0x0c, 0x3c, 0x19, 0xb4, 0x91, 0x70,
+	0x21, 0x4b, 0xe7, 0xc0, 0xfa, 0x9d, 0x86, 0x4a, 0x03, 0x5b, 0x4f, 0xb3, 0x40, 0x57, 0xb7, 0x46,
+	0xb0, 0x3e, 0x64, 0xcd, 0x41, 0x8f, 0x2b, 0x21, 0x07, 0xf6, 0x4c, 0xea, 0x78, 0x4a, 0x21, 0x8b,
+	0x1a, 0x96, 0x23, 0x8b, 0xb1, 0xda, 0xc0, 0xe6, 0x0b, 0x1b, 0xf0, 0xea, 0x56, 0xd3, 0x75, 0x25,
+	0xf4, 0x27, 0xad, 0xeb, 0x70, 0xb8, 0x30, 0xec, 0x14, 0xe6, 0xa2, 0x50, 0x74, 0xc3, 0xee, 0x65,
+	0xd7, 0xf5, 0x83, 0xb9, 0xb5, 0xcf, 0xe0, 0xc6, 0x81, 0xf0, 0x84, 0xee, 0x8e, 0x3a, 0xd9, 0x9e,
+	0xe8, 0x64, 0xdf, 0x6b, 0x15, 0xf1, 0xa1, 0x60, 0x25, 0x66, 0x19, 0x5b, 0x55, 0x9e, 0xba, 0x55,
+	0x05, 0x99, 0x03, 0x7f, 0x23, 0x37, 0x60, 0x7b, 0xe2, 0x0d, 0x28, 0xc8, 0x6a, 0xc2, 0x42, 0xc4,
+	0x1a, 0x70, 0x1e, 0x59, 0x6b, 0x0b, 0x32, 0x2a, 0xf0, 0xff, 0x1e, 0x77, 0xba, 0x78, 0x20, 0x5c,
+	0x64, 0x9b, 0xe3, 0x55, 0x69, 0x28, 0xd1, 0x5d, 0x32, 0x74, 0x7b, 0x3e, 0x5d, 0xb0, 0x1a, 0xcc,
+	0x55, 0xb1, 0x7f, 0x78, 0x8f, 0x79, 0x0f, 0xd9, 0x46, 0xd6, 0x6e, 0x87, 0x91, 0x44, 0x66, 0xd3,
+	0x9e, 0x10, 0xf7, 0xf5, 0x11, 0x16, 0xaa, 0x48, 0x55, 0x57, 0x36, 0x6b, 0x9c, 0x08, 0x95, 0xa7,
+	0x59, 0x36, 0x7b, 0xed, 0xd5, 0xf8, 0xe7, 0xc3, 0x9e, 0xef, 0x62, 0x0f, 0x3d, 0xe2, 0xa1, 0xdf,
+	0xb0, 0xfb, 0x21, 0x99, 0x14, 0xd0, 0x80, 0xf9, 0xa1, 0x96, 0x35, 0xb3, 0xb6, 0xa4, 0x93, 0xa6,
+	0xef, 0x4e, 0xc8, 0x48, 0xbb, 0x5e, 0x8c, 0x45, 0x6b, 0x52, 0x8b, 0x10, 0xaf, 0x59, 0xe6, 0x6c,
+	0x4a, 0xc3, 0x89, 0xf8, 0xc3, 0x29, 0x59, 0x29, 0x60, 0xb9, 0x8a, 0x64, 0x3a, 0xb4, 0xae, 0x4e,
+	0x79, 0xfa, 0xea, 0xbc, 0x15, 0x9a, 0x52, 0xc0, 0x3b, 0xb8, 0x96, 0x66, 0x34, 0x28, 0x68, 0xb2,
+	0x67, 0x66, 0x63, 0x41, 0x73, 0x54, 0x64, 0x4f, 0xb6, 0xd2, 0x9d, 0x5d, 0x1d, 0x4f, 0x0f, 0x09,
+	0x15, 0xd1, 0x6e, 0xb3, 0x23, 0x98, 0xad, 0x63, 0x9b, 0x3b, 0x24, 0x95, 0x79, 0x40, 0x92, 0x88,
+	0xf5, 0x80, 0x0c, 0x12, 0xe2, 0x46, 0x5f, 0xc3, 0x7f, 0x6f, 0x84, 0xeb, 0x9a, 0xaf, 0x57, 0xf8,
+	0xb5, 0xa6, 0xa4, 0x83, 0x5a, 0x4f, 0x3e, 0xb5, 0x3b, 0xbf, 0x66, 0xc3, 0x96, 0x7c, 0xa9, 0x08,
+	0x15, 0x3b, 0x85, 0x95, 0x63, 0x49, 0xa2, 0x7d, 0x61, 0xbc, 0xaf, 0x39, 0xa6, 0xb6, 0xe5, 0x7a,
+	0x34, 0x61, 0x3d, 0xd2, 0xce, 0x9c, 0x8b, 0x39, 0xc7, 0xa7, 0x85, 0x71, 0x06, 0x1b, 0x31, 0xc3,
+	0x36, 0x94, 0x0a, 0xcc, 0x2f, 0x0b, 0xab, 0x0b, 0x77, 0x22, 0xd6, 0x9e, 0xf4, 0x1c, 0xf4, 0xc9,
+	0x44, 0x3d, 0x37, 0x5e, 0x12, 0x4b, 0xe6, 0x14, 0x52, 0x0b, 0x6e, 0x65, 0x93, 0xa2, 0xe7, 0xce,
+	0x3c, 0x9d, 0xd9, 0x79, 0x97, 0xde, 0x9f, 0xac, 0xf9, 0x9a, 0x73, 0x0c, 0x5b, 0x18, 0x1f, 0xe0,
+	0x66, 0x06, 0x23, 0xb6, 0x91, 0x67, 0x3c, 0x5a, 0xf4, 0xdb, 0x70, 0xdb, 0xb2, 0xff, 0x31, 0x23,
+	0xef, 0x48, 0x9c, 0xea, 0xc3, 0x9c, 0x70, 0xb9, 0xc6, 0xa0, 0x45, 0xff, 0x04, 0x96, 0xc6, 0xee,
+	0x61, 0xac, 0x7d, 0xd9, 0xd1, 0x67, 0x1d, 0x51, 0xd7, 0xe3, 0xbe, 0xc3, 0x1f, 0xf6, 0x75, 0xd4,
+	0x81, 0x4b, 0x19, 0x6f, 0x73, 0x18, 0x4c, 0x85, 0xa3, 0x2c, 0x9b, 0xe2, 0x1f, 0x78, 0x81, 0xbe,
+	0xff, 0x03, 0x50, 0x91, 0x4e, 0x10, 0x3e, 0xa5, 0xa8, 0xd8, 0x6e, 0x38, 0x93, 0x3c, 0x54, 0x9c,
+	0xb0, 0x22, 0x1d, 0xcd, 0xd6, 0x33, 0x7f, 0xc0, 0x23, 0x71, 0xe1, 0xea, 0xbf, 0xd7, 0xd5, 0xee,
+	0x16, 0x2c, 0x3b, 0xb2, 0x57, 0xa6, 0xae, 0x0c, 0x3a, 0x5d, 0xfa, 0x22, 0xd5, 0xb9, 0x8e, 0x12,
+	0x7f, 0xfc, 0x5b, 0xaa, 0xf6, 0x0b, 0x8e, 0xe2, 0x82, 0xe6, 0x4c, 0xff, 0xff, 0xb7, 0x97, 0xbf,
+	0x03, 0x00, 0x00, 0xff, 0xff, 0xc3, 0x56, 0x5f, 0x74, 0xf1, 0x0d, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -90,7 +97,7 @@ type RunnerClient interface {
 	// SuiteDataStoreInit is a RPC to initialize the suite level data store.
 	//
 	// Accepts a Empty message and returns a ExecutionStatusResponse message
-	InitializeSuiteDataStore(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*ExecutionStatusResponse, error)
+	InitializeSuiteDataStore(ctx context.Context, in *SuiteDataStoreInitRequest, opts ...grpc.CallOption) (*ExecutionStatusResponse, error)
 	// ExecutionStarting is a RPC to tell runner to execute Suite level hooks.
 	//
 	// Accepts a ExecutionStartingRequest message and returns a ExecutionStatusResponse message
@@ -98,7 +105,7 @@ type RunnerClient interface {
 	// SpecDataStoreInit is a RPC to initialize the spec level data store.
 	//
 	// Accepts a Empty message and returns a ExecutionStatusResponse message
-	InitializeSpecDataStore(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*ExecutionStatusResponse, error)
+	InitializeSpecDataStore(ctx context.Context, in *SpecDataStoreInitRequest, opts ...grpc.CallOption) (*ExecutionStatusResponse, error)
 	// SpecExecutionStarting is a RPC to tell runner to execute spec level hooks.
 	//
 	// Accepts a SpecExecutionStartingRequest message and returns a ExecutionStatusResponse message
@@ -106,7 +113,7 @@ type RunnerClient interface {
 	// ScenarioDataStoreInit is a RPC to initialize the scenario level data store.
 	//
 	// Accepts a Empty message and returns a ExecutionStatusResponse message
-	InitializeScenarioDataStore(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*ExecutionStatusResponse, error)
+	InitializeScenarioDataStore(ctx context.Context, in *ScenarioDataStoreInitRequest, opts ...grpc.CallOption) (*ExecutionStatusResponse, error)
 	// ScenarioExecutionStarting is a RPC to tell runner to execute scenario level hooks.
 	//
 	// Accepts a ScenarioExecutionStartingRequest message and returns a ExecutionStatusResponse message
@@ -190,7 +197,7 @@ func (c *runnerClient) ValidateStep(ctx context.Context, in *StepValidateRequest
 	return out, nil
 }
 
-func (c *runnerClient) InitializeSuiteDataStore(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*ExecutionStatusResponse, error) {
+func (c *runnerClient) InitializeSuiteDataStore(ctx context.Context, in *SuiteDataStoreInitRequest, opts ...grpc.CallOption) (*ExecutionStatusResponse, error) {
 	out := new(ExecutionStatusResponse)
 	err := c.cc.Invoke(ctx, "/gauge.messages.Runner/InitializeSuiteDataStore", in, out, opts...)
 	if err != nil {
@@ -208,7 +215,7 @@ func (c *runnerClient) StartExecution(ctx context.Context, in *ExecutionStarting
 	return out, nil
 }
 
-func (c *runnerClient) InitializeSpecDataStore(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*ExecutionStatusResponse, error) {
+func (c *runnerClient) InitializeSpecDataStore(ctx context.Context, in *SpecDataStoreInitRequest, opts ...grpc.CallOption) (*ExecutionStatusResponse, error) {
 	out := new(ExecutionStatusResponse)
 	err := c.cc.Invoke(ctx, "/gauge.messages.Runner/InitializeSpecDataStore", in, out, opts...)
 	if err != nil {
@@ -226,7 +233,7 @@ func (c *runnerClient) StartSpecExecution(ctx context.Context, in *SpecExecution
 	return out, nil
 }
 
-func (c *runnerClient) InitializeScenarioDataStore(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*ExecutionStatusResponse, error) {
+func (c *runnerClient) InitializeScenarioDataStore(ctx context.Context, in *ScenarioDataStoreInitRequest, opts ...grpc.CallOption) (*ExecutionStatusResponse, error) {
 	out := new(ExecutionStatusResponse)
 	err := c.cc.Invoke(ctx, "/gauge.messages.Runner/InitializeScenarioDataStore", in, out, opts...)
 	if err != nil {
@@ -388,7 +395,7 @@ type RunnerServer interface {
 	// SuiteDataStoreInit is a RPC to initialize the suite level data store.
 	//
 	// Accepts a Empty message and returns a ExecutionStatusResponse message
-	InitializeSuiteDataStore(context.Context, *Empty) (*ExecutionStatusResponse, error)
+	InitializeSuiteDataStore(context.Context, *SuiteDataStoreInitRequest) (*ExecutionStatusResponse, error)
 	// ExecutionStarting is a RPC to tell runner to execute Suite level hooks.
 	//
 	// Accepts a ExecutionStartingRequest message and returns a ExecutionStatusResponse message
@@ -396,7 +403,7 @@ type RunnerServer interface {
 	// SpecDataStoreInit is a RPC to initialize the spec level data store.
 	//
 	// Accepts a Empty message and returns a ExecutionStatusResponse message
-	InitializeSpecDataStore(context.Context, *Empty) (*ExecutionStatusResponse, error)
+	InitializeSpecDataStore(context.Context, *SpecDataStoreInitRequest) (*ExecutionStatusResponse, error)
 	// SpecExecutionStarting is a RPC to tell runner to execute spec level hooks.
 	//
 	// Accepts a SpecExecutionStartingRequest message and returns a ExecutionStatusResponse message
@@ -404,7 +411,7 @@ type RunnerServer interface {
 	// ScenarioDataStoreInit is a RPC to initialize the scenario level data store.
 	//
 	// Accepts a Empty message and returns a ExecutionStatusResponse message
-	InitializeScenarioDataStore(context.Context, *Empty) (*ExecutionStatusResponse, error)
+	InitializeScenarioDataStore(context.Context, *ScenarioDataStoreInitRequest) (*ExecutionStatusResponse, error)
 	// ScenarioExecutionStarting is a RPC to tell runner to execute scenario level hooks.
 	//
 	// Accepts a ScenarioExecutionStartingRequest message and returns a ExecutionStatusResponse message
@@ -471,6 +478,77 @@ type RunnerServer interface {
 	Kill(context.Context, *KillProcessRequest) (*Empty, error)
 }
 
+// UnimplementedRunnerServer can be embedded to have forward compatible implementations.
+type UnimplementedRunnerServer struct {
+}
+
+func (*UnimplementedRunnerServer) ValidateStep(ctx context.Context, req *StepValidateRequest) (*StepValidateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ValidateStep not implemented")
+}
+func (*UnimplementedRunnerServer) InitializeSuiteDataStore(ctx context.Context, req *SuiteDataStoreInitRequest) (*ExecutionStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method InitializeSuiteDataStore not implemented")
+}
+func (*UnimplementedRunnerServer) StartExecution(ctx context.Context, req *ExecutionStartingRequest) (*ExecutionStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method StartExecution not implemented")
+}
+func (*UnimplementedRunnerServer) InitializeSpecDataStore(ctx context.Context, req *SpecDataStoreInitRequest) (*ExecutionStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method InitializeSpecDataStore not implemented")
+}
+func (*UnimplementedRunnerServer) StartSpecExecution(ctx context.Context, req *SpecExecutionStartingRequest) (*ExecutionStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method StartSpecExecution not implemented")
+}
+func (*UnimplementedRunnerServer) InitializeScenarioDataStore(ctx context.Context, req *ScenarioDataStoreInitRequest) (*ExecutionStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method InitializeScenarioDataStore not implemented")
+}
+func (*UnimplementedRunnerServer) StartScenarioExecution(ctx context.Context, req *ScenarioExecutionStartingRequest) (*ExecutionStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method StartScenarioExecution not implemented")
+}
+func (*UnimplementedRunnerServer) StartStepExecution(ctx context.Context, req *StepExecutionStartingRequest) (*ExecutionStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method StartStepExecution not implemented")
+}
+func (*UnimplementedRunnerServer) ExecuteStep(ctx context.Context, req *ExecuteStepRequest) (*ExecutionStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ExecuteStep not implemented")
+}
+func (*UnimplementedRunnerServer) FinishStepExecution(ctx context.Context, req *StepExecutionEndingRequest) (*ExecutionStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FinishStepExecution not implemented")
+}
+func (*UnimplementedRunnerServer) FinishScenarioExecution(ctx context.Context, req *ScenarioExecutionEndingRequest) (*ExecutionStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FinishScenarioExecution not implemented")
+}
+func (*UnimplementedRunnerServer) FinishSpecExecution(ctx context.Context, req *SpecExecutionEndingRequest) (*ExecutionStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FinishSpecExecution not implemented")
+}
+func (*UnimplementedRunnerServer) FinishExecution(ctx context.Context, req *ExecutionEndingRequest) (*ExecutionStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FinishExecution not implemented")
+}
+func (*UnimplementedRunnerServer) CacheFile(ctx context.Context, req *CacheFileRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CacheFile not implemented")
+}
+func (*UnimplementedRunnerServer) GetStepName(ctx context.Context, req *StepNameRequest) (*StepNameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetStepName not implemented")
+}
+func (*UnimplementedRunnerServer) GetGlobPatterns(ctx context.Context, req *Empty) (*ImplementationFileGlobPatternResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGlobPatterns not implemented")
+}
+func (*UnimplementedRunnerServer) GetStepNames(ctx context.Context, req *StepNamesRequest) (*StepNamesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetStepNames not implemented")
+}
+func (*UnimplementedRunnerServer) GetStepPositions(ctx context.Context, req *StepPositionsRequest) (*StepPositionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetStepPositions not implemented")
+}
+func (*UnimplementedRunnerServer) GetImplementationFiles(ctx context.Context, req *Empty) (*ImplementationFileListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetImplementationFiles not implemented")
+}
+func (*UnimplementedRunnerServer) ImplementStub(ctx context.Context, req *StubImplementationCodeRequest) (*FileDiff, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ImplementStub not implemented")
+}
+func (*UnimplementedRunnerServer) Refactor(ctx context.Context, req *RefactorRequest) (*RefactorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Refactor not implemented")
+}
+func (*UnimplementedRunnerServer) Kill(ctx context.Context, req *KillProcessRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Kill not implemented")
+}
+
 func RegisterRunnerServer(s *grpc.Server, srv RunnerServer) {
 	s.RegisterService(&_Runner_serviceDesc, srv)
 }
@@ -494,7 +572,7 @@ func _Runner_ValidateStep_Handler(srv interface{}, ctx context.Context, dec func
 }
 
 func _Runner_InitializeSuiteDataStore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Empty)
+	in := new(SuiteDataStoreInitRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -506,7 +584,7 @@ func _Runner_InitializeSuiteDataStore_Handler(srv interface{}, ctx context.Conte
 		FullMethod: "/gauge.messages.Runner/InitializeSuiteDataStore",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RunnerServer).InitializeSuiteDataStore(ctx, req.(*Empty))
+		return srv.(RunnerServer).InitializeSuiteDataStore(ctx, req.(*SuiteDataStoreInitRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -530,7 +608,7 @@ func _Runner_StartExecution_Handler(srv interface{}, ctx context.Context, dec fu
 }
 
 func _Runner_InitializeSpecDataStore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Empty)
+	in := new(SpecDataStoreInitRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -542,7 +620,7 @@ func _Runner_InitializeSpecDataStore_Handler(srv interface{}, ctx context.Contex
 		FullMethod: "/gauge.messages.Runner/InitializeSpecDataStore",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RunnerServer).InitializeSpecDataStore(ctx, req.(*Empty))
+		return srv.(RunnerServer).InitializeSpecDataStore(ctx, req.(*SpecDataStoreInitRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -566,7 +644,7 @@ func _Runner_StartSpecExecution_Handler(srv interface{}, ctx context.Context, de
 }
 
 func _Runner_InitializeScenarioDataStore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Empty)
+	in := new(ScenarioDataStoreInitRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -578,7 +656,7 @@ func _Runner_InitializeScenarioDataStore_Handler(srv interface{}, ctx context.Co
 		FullMethod: "/gauge.messages.Runner/InitializeScenarioDataStore",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RunnerServer).InitializeScenarioDataStore(ctx, req.(*Empty))
+		return srv.(RunnerServer).InitializeScenarioDataStore(ctx, req.(*ScenarioDataStoreInitRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -984,6 +1062,14 @@ type ReporterClient interface {
 	//
 	// Accepts a ScenarioExecutionStartingRequest message and returns a Empty message
 	NotifyScenarioExecutionStarting(ctx context.Context, in *ScenarioExecutionStartingRequest, opts ...grpc.CallOption) (*Empty, error)
+	// NotifyConceptExecutionStarting is a RPC to tell plugins that the concept execution has started.
+	//
+	// Accepts a ConceptExecutionStartingRequest message and returns a Empty message
+	NotifyConceptExecutionStarting(ctx context.Context, in *ConceptExecutionStartingRequest, opts ...grpc.CallOption) (*Empty, error)
+	// NotifyConceptExecutionEnding is a RPC to tell plugins that the concept execution has finished.
+	//
+	// Accepts a ConceptExecutionStartingRequest message and returns a Empty message
+	NotifyConceptExecutionEnding(ctx context.Context, in *ConceptExecutionEndingRequest, opts ...grpc.CallOption) (*Empty, error)
 	// NotifyStepExecutionStarting is a RPC to tell plugins that the step execution has started.
 	//
 	// Accepts a StepExecutionStartingRequest message and returns a Empty message
@@ -1043,6 +1129,24 @@ func (c *reporterClient) NotifySpecExecutionStarting(ctx context.Context, in *Sp
 func (c *reporterClient) NotifyScenarioExecutionStarting(ctx context.Context, in *ScenarioExecutionStartingRequest, opts ...grpc.CallOption) (*Empty, error) {
 	out := new(Empty)
 	err := c.cc.Invoke(ctx, "/gauge.messages.Reporter/NotifyScenarioExecutionStarting", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *reporterClient) NotifyConceptExecutionStarting(ctx context.Context, in *ConceptExecutionStartingRequest, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/gauge.messages.Reporter/NotifyConceptExecutionStarting", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *reporterClient) NotifyConceptExecutionEnding(ctx context.Context, in *ConceptExecutionEndingRequest, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/gauge.messages.Reporter/NotifyConceptExecutionEnding", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1126,6 +1230,14 @@ type ReporterServer interface {
 	//
 	// Accepts a ScenarioExecutionStartingRequest message and returns a Empty message
 	NotifyScenarioExecutionStarting(context.Context, *ScenarioExecutionStartingRequest) (*Empty, error)
+	// NotifyConceptExecutionStarting is a RPC to tell plugins that the concept execution has started.
+	//
+	// Accepts a ConceptExecutionStartingRequest message and returns a Empty message
+	NotifyConceptExecutionStarting(context.Context, *ConceptExecutionStartingRequest) (*Empty, error)
+	// NotifyConceptExecutionEnding is a RPC to tell plugins that the concept execution has finished.
+	//
+	// Accepts a ConceptExecutionStartingRequest message and returns a Empty message
+	NotifyConceptExecutionEnding(context.Context, *ConceptExecutionEndingRequest) (*Empty, error)
 	// NotifyStepExecutionStarting is a RPC to tell plugins that the step execution has started.
 	//
 	// Accepts a StepExecutionStartingRequest message and returns a Empty message
@@ -1154,6 +1266,47 @@ type ReporterServer interface {
 	//
 	// Accepts a KillProcessRequest message and returns a Empty message.
 	Kill(context.Context, *KillProcessRequest) (*Empty, error)
+}
+
+// UnimplementedReporterServer can be embedded to have forward compatible implementations.
+type UnimplementedReporterServer struct {
+}
+
+func (*UnimplementedReporterServer) NotifyExecutionStarting(ctx context.Context, req *ExecutionStartingRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method NotifyExecutionStarting not implemented")
+}
+func (*UnimplementedReporterServer) NotifySpecExecutionStarting(ctx context.Context, req *SpecExecutionStartingRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method NotifySpecExecutionStarting not implemented")
+}
+func (*UnimplementedReporterServer) NotifyScenarioExecutionStarting(ctx context.Context, req *ScenarioExecutionStartingRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method NotifyScenarioExecutionStarting not implemented")
+}
+func (*UnimplementedReporterServer) NotifyConceptExecutionStarting(ctx context.Context, req *ConceptExecutionStartingRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method NotifyConceptExecutionStarting not implemented")
+}
+func (*UnimplementedReporterServer) NotifyConceptExecutionEnding(ctx context.Context, req *ConceptExecutionEndingRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method NotifyConceptExecutionEnding not implemented")
+}
+func (*UnimplementedReporterServer) NotifyStepExecutionStarting(ctx context.Context, req *StepExecutionStartingRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method NotifyStepExecutionStarting not implemented")
+}
+func (*UnimplementedReporterServer) NotifyStepExecutionEnding(ctx context.Context, req *StepExecutionEndingRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method NotifyStepExecutionEnding not implemented")
+}
+func (*UnimplementedReporterServer) NotifyScenarioExecutionEnding(ctx context.Context, req *ScenarioExecutionEndingRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method NotifyScenarioExecutionEnding not implemented")
+}
+func (*UnimplementedReporterServer) NotifySpecExecutionEnding(ctx context.Context, req *SpecExecutionEndingRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method NotifySpecExecutionEnding not implemented")
+}
+func (*UnimplementedReporterServer) NotifyExecutionEnding(ctx context.Context, req *ExecutionEndingRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method NotifyExecutionEnding not implemented")
+}
+func (*UnimplementedReporterServer) NotifySuiteResult(ctx context.Context, req *SuiteExecutionResult) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method NotifySuiteResult not implemented")
+}
+func (*UnimplementedReporterServer) Kill(ctx context.Context, req *KillProcessRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Kill not implemented")
 }
 
 func RegisterReporterServer(s *grpc.Server, srv ReporterServer) {
@@ -1210,6 +1363,42 @@ func _Reporter_NotifyScenarioExecutionStarting_Handler(srv interface{}, ctx cont
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ReporterServer).NotifyScenarioExecutionStarting(ctx, req.(*ScenarioExecutionStartingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Reporter_NotifyConceptExecutionStarting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConceptExecutionStartingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReporterServer).NotifyConceptExecutionStarting(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/gauge.messages.Reporter/NotifyConceptExecutionStarting",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReporterServer).NotifyConceptExecutionStarting(ctx, req.(*ConceptExecutionStartingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Reporter_NotifyConceptExecutionEnding_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConceptExecutionEndingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReporterServer).NotifyConceptExecutionEnding(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/gauge.messages.Reporter/NotifyConceptExecutionEnding",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReporterServer).NotifyConceptExecutionEnding(ctx, req.(*ConceptExecutionEndingRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1357,6 +1546,14 @@ var _Reporter_serviceDesc = grpc.ServiceDesc{
 			Handler:    _Reporter_NotifyScenarioExecutionStarting_Handler,
 		},
 		{
+			MethodName: "NotifyConceptExecutionStarting",
+			Handler:    _Reporter_NotifyConceptExecutionStarting_Handler,
+		},
+		{
+			MethodName: "NotifyConceptExecutionEnding",
+			Handler:    _Reporter_NotifyConceptExecutionEnding_Handler,
+		},
+		{
 			MethodName: "NotifyStepExecutionStarting",
 			Handler:    _Reporter_NotifyStepExecutionStarting_Handler,
 		},
@@ -1383,6 +1580,126 @@ var _Reporter_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Kill",
 			Handler:    _Reporter_Kill_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "services.proto",
+}
+
+// DocumenterClient is the client API for Documenter service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type DocumenterClient interface {
+	// GenerateDocs is a RPC tell plugin to generate docs from the spec details.
+	//
+	// Accepts a SpecDetails message and returns a Empty message.
+	GenerateDocs(ctx context.Context, in *SpecDetails, opts ...grpc.CallOption) (*Empty, error)
+	// Kill is a RPC tell plugin to stop grpc server and kill the plugin process.
+	//
+	// Accepts a KillProcessRequest message and returns a Empty message.
+	Kill(ctx context.Context, in *KillProcessRequest, opts ...grpc.CallOption) (*Empty, error)
+}
+
+type documenterClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewDocumenterClient(cc *grpc.ClientConn) DocumenterClient {
+	return &documenterClient{cc}
+}
+
+func (c *documenterClient) GenerateDocs(ctx context.Context, in *SpecDetails, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/gauge.messages.Documenter/GenerateDocs", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *documenterClient) Kill(ctx context.Context, in *KillProcessRequest, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/gauge.messages.Documenter/Kill", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// DocumenterServer is the server API for Documenter service.
+type DocumenterServer interface {
+	// GenerateDocs is a RPC tell plugin to generate docs from the spec details.
+	//
+	// Accepts a SpecDetails message and returns a Empty message.
+	GenerateDocs(context.Context, *SpecDetails) (*Empty, error)
+	// Kill is a RPC tell plugin to stop grpc server and kill the plugin process.
+	//
+	// Accepts a KillProcessRequest message and returns a Empty message.
+	Kill(context.Context, *KillProcessRequest) (*Empty, error)
+}
+
+// UnimplementedDocumenterServer can be embedded to have forward compatible implementations.
+type UnimplementedDocumenterServer struct {
+}
+
+func (*UnimplementedDocumenterServer) GenerateDocs(ctx context.Context, req *SpecDetails) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GenerateDocs not implemented")
+}
+func (*UnimplementedDocumenterServer) Kill(ctx context.Context, req *KillProcessRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Kill not implemented")
+}
+
+func RegisterDocumenterServer(s *grpc.Server, srv DocumenterServer) {
+	s.RegisterService(&_Documenter_serviceDesc, srv)
+}
+
+func _Documenter_GenerateDocs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SpecDetails)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DocumenterServer).GenerateDocs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/gauge.messages.Documenter/GenerateDocs",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DocumenterServer).GenerateDocs(ctx, req.(*SpecDetails))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Documenter_Kill_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(KillProcessRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DocumenterServer).Kill(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/gauge.messages.Documenter/Kill",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DocumenterServer).Kill(ctx, req.(*KillProcessRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _Documenter_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "gauge.messages.Documenter",
+	HandlerType: (*DocumenterServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GenerateDocs",
+			Handler:    _Documenter_GenerateDocs_Handler,
+		},
+		{
+			MethodName: "Kill",
+			Handler:    _Documenter_Kill_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
